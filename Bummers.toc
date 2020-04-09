@@ -2,7 +2,7 @@
 ## Title: Bummers
 ## DefaultState: Enabled
 ## Author: chaos.factor
-## Version: 0.0.1
+## Version: 0.0.2
 ## Notes: Bring a smile to some down notes
 
 main.lua

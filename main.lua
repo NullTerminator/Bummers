@@ -7,15 +7,23 @@ f:SetScript("OnEvent", function(self, event)
 end)
 
 function f:OnEvent(event, ...)
-	local timestamp, subevent, _, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
+	local timestamp, event, _, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
 
-	if subevent == "SPELL_MISSED" and playerGUID == sourceGUID then
-    local spellId, spellName, spellSchool, missType = select(12, ...)
-    if missType == "RESIST" then
-      playSound("spell_resist")
+  if playerGUID == sourceGUID then
+    if event == "SPELL_MISSED" then
+      local spellId, spellName, spellSchool, missType = select(12, ...)
+      playSound("spell_"..missType:lower())
+    elseif event == "SWING_MISSED" then
+      local missType = select(12, ...)
+      playSound("melee_"..missType:lower())
+    elseif event == "RANGED_MISSED" then
+      local spellId, spellName, spellSchool, missType = select(12, ...)
+      playSound("ranged_"..missType:lower())
     end
-  elseif subevent == "UNIT_DIED" and playerGUID == destGUID then
-    playSound("death")
+  elseif event == "UNIT_DIED" and playerGUID == destGUID then
+    C_Timer.After(0.5, function()
+      playSound("death")
+    end)
   end
 end
 
